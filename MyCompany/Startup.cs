@@ -14,6 +14,8 @@ namespace MyCompany
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            //Добавляем поддержку контроллеров и представлений (MVC)
+            services.AddControllersWithViews();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -23,14 +25,16 @@ namespace MyCompany
                 app.UseDeveloperExceptionPage();
             }
 
+            //Настраиваем систему маршрутизации
             app.UseRouting();
 
+            //Подключаем поддержку статичных файлов в приложении (css, js и т.д)
+            app.UseStaticFiles();
+
+            //Регистрируем нужные нам маршруты(ендпоинты)
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
